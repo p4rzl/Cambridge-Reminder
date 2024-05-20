@@ -1,3 +1,7 @@
+window.addEventListener('load', function() {
+    registerServiceWorker();
+});
+
 // Richiesta di autorizzazione per le notifiche push
 function requestNotificationPermission() {
     if ('Notification' in window) {
@@ -20,6 +24,7 @@ function sendNotification() {
             });
         });
     }
+    registerServiceWorker(); // Aggiungi questa riga per registrare il Service Worker
 }
 
 // Funzione per controllare se una nuova data è stata aggiunta al file dates.txt
