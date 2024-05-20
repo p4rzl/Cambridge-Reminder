@@ -4,6 +4,7 @@ function requestNotificationPermission() {
         Notification.requestPermission().then(function(permission) {
             if (permission === 'granted') {
                 console.log('Autorizzazione alle notifiche push ottenuta.');
+                registerServiceWorker(); // Registra il Service Worker
             }
         });
     }
@@ -12,9 +13,11 @@ function requestNotificationPermission() {
 // Funzione per inviare una notifica push
 function sendNotification() {
     if ('Notification' in window && Notification.permission === 'granted') {
-        var notification = new Notification('Il Corso di Inglese Chiama!', {
-            body: 'Oggi dalle 14:30 fino alle 18:30 hai il corso di inglese.',
-            icon: 'dublino-hd.jpg'
+        navigator.serviceWorker.ready.then(function(registration) {
+            registration.showNotification('Il Corso di Inglese Chiama!', {
+                body: 'Oggi dalle 14:30 fino alle 18:30 hai il corso di inglese.',
+                icon: 'dublino-hd.jpg'
+            });
         });
     }
 }
@@ -38,6 +41,19 @@ function checkNewDate() {
     xhr.send();
 }
 
+// Registra il Service Worker
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(function(registration) {
+                console.log('Service Worker registrato con successo:', registration);
+            })
+            .catch(function(error) {
+                console.log('Errore durante la registrazione del Service Worker:', error);
+            });
+    }
+}
+
 // Controlla se il browser supporta le notifiche push
 if ('Notification' in window) {
     // Richiedi l'autorizzazione per le notifiche push
@@ -49,5 +65,6 @@ if ('Notification' in window) {
 
 // Funzione per testare la notifica push manualmente
 function testNotification() {
+    registerServiceWorker(); // Aggiungi questa riga per registrare il Service Worker
     sendNotification();
 }
