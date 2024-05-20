@@ -49,7 +49,7 @@ function checkNewDate() {
 // Registra il Service Worker
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('https://raw.githubusercontent.com/p4rzl/Cambridge-Reminder/main/service-worker.js?token=GHSAT0AAAAAACQ7SBXZ72AKFS7BHFJC33WKZSLEISA')
+        navigator.serviceWorker.register('service-worker.js')
             .then(function(registration) {
                 console.log('Service Worker registrato con successo:', registration);
             })
